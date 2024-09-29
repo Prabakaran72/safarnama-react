@@ -9,14 +9,13 @@ interface ApiHelper {
 
 const apiHelper: ApiHelper = {
   async get(endpoint: string): Promise<any> {
-
-    console.log("{API_URL}/${endpoint}"+ `${API_URL}/${endpoint}`);
     try {
-      const response = await fetch(`${API_URL}/${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
 
       if (!response.ok) {

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import apiHelper from "./utils/apiHelper";
-import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Pages/Home";
+import ResponsiveLayout from './components/Layout';
+import { AuthProvider, useAuth } from './components/Auth/AuthProvider';
 
 interface DataType {
   // Define the shape of your data here
@@ -15,7 +16,6 @@ interface DataType {
 function App() {
   const [data, setData] = useState<DataType | null>(null);
   const [error, setError] = useState<string | null>(null);
-
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -30,13 +30,13 @@ function App() {
   // }, []);
 
   return (
- <>
- <Router>
-  <Routes>
-    <Route path="/" element={<Home />}/>
-  </Routes>
- </Router>
- </>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<ResponsiveLayout />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

@@ -11,11 +11,11 @@ const cardMenuOptions :PopMenuOptions = {
   projects: [{icon: Icons.ViewListIcon, title: 'View all', path: '', style: ''}],
   publish: [{icon: Icons.ExitToAppIcon, title: '', path: '', style: ''}],
   media: [{icon: Icons.ExitToAppIcon, title: '', path: '', style: ''}],
-  user: [{icon: Icons.ExitToAppIcon, title: 'Logout', path: '/logout', style: 'mb-4'}, {icon: Icons.PersonIcon, title: 'Edit profile', path: '/edit-profile', style: 'mb-4'}],
+  user: [{icon: Icons.ExitToAppIcon, title: 'Logout', path: 'logout', style: 'mb-4'}, {icon: Icons.PersonIcon, title: 'Edit profile', path: 'edit-profile', style: 'mb-4'}],
   admin: [{icon: Icons.ExitToAppIcon, title: '', path: '', style: ''}]
 }
 
-const PopsCard:React.FC<PopsType> = ({ title, menu, width = 'w-96', onClose, position }) => {
+const PopsCard:React.FC<PopsType> = ({ title, menu, width = 'w-96', onClose, position, onChoose }) => {
   const [cardPosition, setCardPosition] = useState({ top: 0, left: 0 });
   const [popsList, setPopsList] = useState<JSX.Element[] | null>(null);
 
@@ -24,9 +24,7 @@ const PopsCard:React.FC<PopsType> = ({ title, menu, width = 'w-96', onClose, pos
     const windowHeight :number = window.innerHeight;
     const cardHeight = 180; // Approximate height of the card
     const spaceBelow : number = windowHeight - position.bottom;
-    console.log("** windowHeight",  windowHeight)
-    console.log("** position.bottom",  position.bottom)
-    console.log("** spaceBelow",  spaceBelow)
+
     // Check if there's enough space below the clicked element, otherwise place it above
     if (spaceBelow < cardHeight) {
       setCardPosition({ top: position.top - cardHeight, left: position.left });
@@ -35,19 +33,15 @@ const PopsCard:React.FC<PopsType> = ({ title, menu, width = 'w-96', onClose, pos
     }
   }, [position]);
 
-  useEffect(()=>{
-    
+  useEffect(()=>{    
     const newPopsList = cardMenuOptions[menu as keyof PopMenuOptions]?.map((option, index) => (
-      <Link key={index} to={option.path} className={`${option.style} flex flex-row text-lg lg:text-xl sm:text-lg font-normal text-black no-underline hover:text-black hover:underline hover:decoration-blue-400 lg:my-2 my-2 !important`} >
+      <div key={index} onClick={()=>onChoose(option.path)} className={`${option.style} flex flex-row text-lg lg:text-xl sm:text-lg font-normal text-black no-underline hover:text-black hover:underline hover:decoration-blue-400 lg:my-2 my-2 !important`} >
         <span className='mr-2'><option.icon className="w-20 h-20"/></span>{/* Render the icon */}
         <span>{option.title}</span> {/* Render the title */}
-      </Link>
+      </div>
     )) || []; // Fallback to an empty array if no options are found
-
     setPopsList(newPopsList); 
-    
   },[menu]);
-
 
   return (
     <div className="fixed inset-0 z-10" onClick={onClose}>

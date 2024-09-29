@@ -5,7 +5,8 @@ export type PopsType = {
     menu : string, 
     width : string, 
     onClose : ()=>void,
-    position : PopsPosition
+    position : PopsPosition,
+    onChoose: (path:PopMenuOptionType['path'])=>void,
 }
 
 export type PopsPosition = {

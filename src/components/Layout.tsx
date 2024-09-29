@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiListUl, BiX, BiSearch, BiChevronDown } from 'react-icons/bi';
 import "../App.css";
 import Logo from '../assets/images/travel-guide-logo.jpg';
@@ -7,8 +7,10 @@ import Tooltip from './utils/Tooltip';
 import SignInCard from './Pages/static/SignInCard';
 import WelcomeCard from './Pages/static/WelcomeCard';
 import { useAuth } from './Auth/AuthProvider';
-import { PopsPosition, PopsType, PopMenuWidthType, MenuNameType } from '../types/Props';
+import { PopsPosition, PopsType, PopMenuWidthType, MenuNameType,PopMenuOptionType } from '../types/Props';
 import PopsCard from '../components/utils/PopsCard';
+import PopsForm from './utils/PopsForm';
+import FormMapping from './utils/FormMapping';
 
 
 const PopMenuWidth : PopMenuWidthType= {
@@ -27,8 +29,10 @@ const Sidebar: React.FC = () => {
   const [isMouseEntered, setIsMouseEntered] = useState(false);
   const { state, dispatch } = useAuth();
   const [showCard, setShowCard] = useState<boolean>(false);
+  const [showMenuForm, setShowMenuForm] = useState<boolean>(false);
   const [selectedContent, setSelectedContent] = useState<{ title: string | null, width: string , menu: string }>({ title: null, width:'w-45' , menu: '' });
   const [menuPosition, setMenuPosition] = useState({ top: 0, bottom: 0, left: 0 });
+  const [choosedMenuForm, setChoosedMenuForm] = useState<boolean>(false);
 
   console.log("state => ", state)
   const toggleSidebar = () => {
@@ -50,7 +54,11 @@ const Sidebar: React.FC = () => {
   const closeCard = () => {
     setShowCard(false);
   };
-
+  /**Handle the Forms in the sidebar */
+  const showPopsMenuForm = (path: PopMenuOptionType['path'])=>{   
+    setShowMenuForm((prev: boolean)=> !prev);
+  }
+  
   return (
     <>
       <div className="flex">
@@ -104,9 +112,20 @@ const Sidebar: React.FC = () => {
                 width={selectedContent.width} // Customizable width
                 position={menuPosition}
                 onClose={closeCard}
+                onChoose={showPopsMenuForm}
               />
             )}
           </div>)
+          :
+
+          showMenuForm ? 
+            <PopsForm
+                // title={selectedContent?.title}
+                // menu={selectedContent.menu}
+                // width={selectedContent.width} // Customizable width
+                // position={menuPosition}
+                // onClose={showPopsMenuForm}
+              />
           :
           <span
             className="absolute text-white text-5xl top-5 left-5 cursor-pointer z-10"
@@ -118,12 +137,9 @@ const Sidebar: React.FC = () => {
           </span>
         }
 
-
         {isMouseEntered &&
           <Tooltip text={'Toggle Menu view'} />
         }
-
-
 
       </div>
       {/* {!state?.isAuthenticated ?

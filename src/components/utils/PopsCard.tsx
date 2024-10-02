@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { PopsType, PopMenuOptions } from '../../types/Props';
-import Icons from '../utils/IconLists';
-import { Link } from 'react-router-dom';
-import AddLocationIcon from '@mui/icons-material/AddLocation';
+import cardMenuOptions from '../utils/CardMenuOptions';
 
-const cardMenuOptions :PopMenuOptions = {
-  experience : [{icon: Icons.FolderOpenIcon, title: 'Open', path: '', style: ''}, {icon: Icons.CreateNewFolderIcon, title: 'Create', path: '', style: ''},{icon: Icons.FolderSharedIcon, title: 'Collaborators', path: '', style: ''},{icon: Icons.EditIcon, title: 'Edit', path: '', style: ''},{icon: Icons.ContentCopyIcon, title: 'Clone', path: '', style: ''}, {icon: Icons.DownloadIcon, title: 'Export', path: '', style: ''}],
-  places: [{icon: AddLocationIcon, title: 'Create', path: '', style: ''},{icon: Icons.ViewListIcon, title: 'View all', path: '', style: ''}],
-  routes: [{icon: Icons.NavigationIcon, title: 'Create', path: '', style: ''},{icon: Icons.ViewListIcon, title: 'View all', path: '', style: ''}],
-  projects: [{icon: Icons.ViewListIcon, title: 'View all', path: '', style: ''}],
-  publish: [{icon: Icons.ExitToAppIcon, title: '', path: '', style: ''}],
-  media: [{icon: Icons.ExitToAppIcon, title: '', path: '', style: ''}],
-  user: [{icon: Icons.ExitToAppIcon, title: 'Logout', path: 'logout', style: 'mb-4'}, {icon: Icons.PersonIcon, title: 'Edit profile', path: 'edit-profile', style: 'mb-4'}],
-  admin: [{icon: Icons.ExitToAppIcon, title: '', path: '', style: ''}]
-}
 
 const PopsCard:React.FC<PopsType> = ({ title, menu, width = 'w-96', onClose, position, onChoose }) => {
   const [cardPosition, setCardPosition] = useState({ top: 0, left: 0 });
   const [popsList, setPopsList] = useState<JSX.Element[] | null>(null);
 
-  console.log("position => ",position);
   useEffect(() => {
     const windowHeight :number = window.innerHeight;
     const cardHeight = 180; // Approximate height of the card
@@ -35,8 +22,8 @@ const PopsCard:React.FC<PopsType> = ({ title, menu, width = 'w-96', onClose, pos
 
   useEffect(()=>{    
     const newPopsList = cardMenuOptions[menu as keyof PopMenuOptions]?.map((option, index) => (
-      <div key={index} onClick={()=>onChoose(option.path)} className={`${option.style} flex flex-row text-lg lg:text-xl sm:text-lg font-normal text-black no-underline hover:text-black hover:underline hover:decoration-blue-400 lg:my-2 my-2 !important`} >
-        <span className='mr-2'><option.icon className="w-20 h-20"/></span>{/* Render the icon */}
+      <div key={index} onClick={()=>onChoose(option.path)} className={`${option.style} flex flex-row text-lg lg:text-xl sm:text-lg font-normal text-black no-underline hover:text-black hover:underline hover:decoration-blue-400 lg:my-2 my-2 !important cursor-pointer`} >
+        <span className='mr-2'><option.icon className='icon-size'/></span>{/* Render the icon */}
         <span>{option.title}</span> {/* Render the title */}
       </div>
     )) || []; // Fallback to an empty array if no options are found

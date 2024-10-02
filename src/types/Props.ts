@@ -44,7 +44,21 @@ export type PopMenuWidthType = {
     path: string,
     style: string
   }
+export type FormMappingType = {
+  path : string | null,
+  formPosition : string | null,
+  // onBack : null | (()=> void),
+  title: string 
+}
 
+export type SelectedExperienceType = {
+  name: string
+}
+
+export type DropDownOptionType = {
+  value: number,
+  label: string
+}
 
 
 

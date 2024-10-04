@@ -12,6 +12,9 @@ import PopsCard from '../components/utils/PopsCard';
 import PopsForm from './utils/PopsForm';
 import FormMapping from './utils/FormMapping';
 import SidebarForm from './Pages/SidebarForm';
+import { ToastContainer, toast } from 'material-react-toastify';
+import 'material-react-toastify/dist/ReactToastify.css';
+
 
 const PopMenuWidth: PopMenuWidthType = {
   experience: 'w-54',
@@ -34,7 +37,6 @@ const Sidebar: React.FC = () => {
   const [menuPosition, setMenuPosition] = useState({ top: 0, bottom: 0, left: 0 });
   const [choosedMenuForm, setChoosedMenuForm] = useState<FormMappingType | null>(null);
 
-  console.log("state => ", state)
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setIsMouseEntered(false);
@@ -72,12 +74,79 @@ const Sidebar: React.FC = () => {
   }
 
   useEffect(() => {
-    console.log("showMenuForm ==> ", showMenuForm)
     console.log("choosedMenuForm ==> ", choosedMenuForm)
+    dispatch({ type: 'App/updateActiveMenu', payload: { menu: { ...choosedMenuForm }, isLoading: true } })
   }, [choosedMenuForm, choosedMenuForm])
+
+  useEffect(() => {
+    if (state?.toast?.message) {
+        const {message, type, position} = state?.toast;
+      switch (type) {
+        case 'success':
+          toast.success(message, {
+            position: position,
+            theme: "dark",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: ''
+          });
+          break;
+        case 'error':
+          toast.error(message, {
+            position: position,
+            theme: "dark",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: ''
+          });
+          break;
+        case 'warn':
+          toast.warn(message, {
+            position: position,
+            theme: "dark",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: ''
+          });
+        case 'info':
+          toast.info(message, {
+            position: position,
+            theme: "dark",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: ''
+          });
+          break;
+          default : 
+          toast(message, {
+            position: position,
+            theme: "dark",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: ''
+            });
+      }
+    }
+  }, [state.toast])
 
   return (
     <>
+      <></>
       <div className="flex">
 
         {/* MapWrapper occupies the full viewport */}
@@ -89,7 +158,7 @@ const Sidebar: React.FC = () => {
                 key={choosedMenuForm?.path || 'default'}
                 path={choosedMenuForm?.path || null}
                 formPosition={choosedMenuForm?.formPosition || null}
-                title= {choosedMenuForm?.title}
+                title={choosedMenuForm?.title}
                 // onBack={choosedMenuForm?.onBack || null}
                 showMenuForm={showMenuForm}
                 onBack={onBack} />
@@ -166,7 +235,7 @@ const Sidebar: React.FC = () => {
             // onBack={choosedMenuForm?.onBack || null}
             onBack={onBack}
             showMenuForm={showMenuForm}
-            title = {choosedMenuForm.title}
+            title={choosedMenuForm.title}
           />
           : null
         }
@@ -176,15 +245,23 @@ const Sidebar: React.FC = () => {
         }
 
       </div>
-      {/* {!state?.isAuthenticated ?
+
+      {state?.isAuthenticated !== true ?
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <span>{state?.isAuthenticated}</span>
           <SignInCard />
         </div>
-        :
+        : null}
+      {/*  :
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <WelcomeCard />
         </div>
       } */}
+      <ToastContainer />
+      {state.toast?.msg &&
+        <ToastContainer />
+      }
+
     </>
   );
 };

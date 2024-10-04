@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Terms from './Terms';
 // import apiHelper from '../utils/apiHelper';
 const API_URL = import.meta.env.VITE_API_URL;
+import { useAuth } from '../../Auth/AuthProvider';
 const SignInCard = () => {
     const [isOpenTerms, setIsOpenTerms] = useState<boolean>();
+    const {state, dispatch} = useAuth();
+    console.log("state  => ", state );
     const openTerms = () => {
         setIsOpenTerms(true);
     }

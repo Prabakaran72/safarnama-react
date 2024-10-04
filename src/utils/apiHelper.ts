@@ -1,4 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL;
+import { useAuth } from "../components/Auth/AuthProvider";
 
 interface ApiHelper {
   get: (endpoint: string) => Promise<any>;
@@ -7,90 +8,116 @@ interface ApiHelper {
   delete: (endpoint: string) => Promise<any>;
 }
 
-const apiHelper: ApiHelper = {
-  async get(endpoint: string): Promise<any> {
-    try {
-      const response = await fetch(`${API_URL}${endpoint}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+const apiHelper = (state: any, dispatch: any): ApiHelper => {
+  return {
+    // async get(endpoint: string, toast: {success?: string, error?:string, info?: string, warn?:string}): Promise<any> {
+    async get(endpoint: string): Promise<any> {
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        // responseHandler(response, dispatch);
+        return await response.json();
+      } catch (error) {
+        console.error('GET request failed:', error);
+        throw error;
       }
+    },
 
-      return await response.json();
-    } catch (error) {
-      console.error('GET request failed:', error);
-      throw error;
-    }
-  },
+    async post(endpoint: string, data: any): Promise<any> {
 
-  async post(endpoint: string, data: any): Promise<any> {
-    
-    try {
-      const response = await fetch(`${API_URL}/${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(data),
+        });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        responseHandler(response, dispatch);
+        return await response.json();
+      } catch (error) {
+        console.error('POST request failed:', error);
+        throw error;
       }
+    },
 
-      return await response.json();
-    } catch (error) {
-      console.error('POST request failed:', error);
-      throw error;
-    }
-  },
+    async put(endpoint: string, data: any): Promise<any> {
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(data),
+        });
 
-  async put(endpoint: string, data: any): Promise<any> {
-    try {
-      const response = await fetch(`${API_URL}/${endpoint}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        return await response.json();
+      } catch (error) {
+        console.error('PUT request failed:', error);
+        throw error;
       }
+    },
 
-      return await response.json();
-    } catch (error) {
-      console.error('PUT request failed:', error);
-      throw error;
-    }
-  },
+    async delete(endpoint: string): Promise<any> {
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
 
-  async delete(endpoint: string): Promise<any> {
-    try {
-      const response = await fetch(`${API_URL}/${endpoint}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        return await response.json();
+      } catch (error) {
+        console.error('DELETE request failed:', error);
+        throw error;
       }
-
-      return await response.json();
-    } catch (error) {
-      console.error('DELETE request failed:', error);
-      throw error;
-    }
-  },
+    },
+  }
 };
 
 export default apiHelper;
+
+export const responseHandler = (response: any, dispatch: any) => {
+  let message = '';
+  let type = '';
+  if (response.status >= 200 && response.status < 300) {
+    message = `Operation successfully completed.`;
+    type = 'success';
+  } else if (response.status >= 400 && response.status < 500) {
+    message = `An error occurred. Please try again.`;
+    type = 'error';
+  } else if (response.status >= 300 && response.status < 400) {
+    message = `Information received. Please check your details.`;
+    type = 'info';
+  } else {
+    message = `An unexpected error occurred.`;
+    type = 'error';
+  }
+  dispatch({ type: 'App/toast', payload: { message: message, type: type, position: 'bottom-center' } })
+}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { FormMappingType } from '../../types/Props';
 import IconLists from '../utils/IconLists';
 import Edit from './Experience/Edit';
+// import Create from './Place/Create';
 import Create from './Route/Create';
 
 const SidebarForm: React.FC<FormMappingType & { onBack: () => void, showMenuForm: boolean }> = ({ path, formPosition, title, onBack, showMenuForm }) => {

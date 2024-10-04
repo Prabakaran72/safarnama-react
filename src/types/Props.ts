@@ -59,6 +59,41 @@ export type DropDownOptionType = {
   value: number,
   label: string
 }
+export type DropDownOptionWithIconType = {
+  value: number,
+  label: string
+  icon: string,
+  type: string
+}
+
+export type ModalPopupType = {
+  closeModal: ()=>void;
+  title: string;
+  onSubmit: ()=>void;
+}
+
+export interface AddPlaceTypeInterface {
+  name: string,
+  file: File | null | string,
+  icon: string | null,
+  type: 'image' | 'icon' | '',
+  isFormValid: boolean,
+}
+
+export interface AddPlaceInterface {
+  name: string,
+  type: string | '',
+}
 
 
-
+export interface RouteInterface {
+  name: string;
+  description: string;
+  geo: {
+      type: string;
+      coordinates: number[][];
+  };
+  direction: string;
+  color: string;
+  experienceId: string;
+}

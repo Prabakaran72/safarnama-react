@@ -3,7 +3,6 @@ import { BiListUl, BiX, BiSearch, BiChevronDown } from 'react-icons/bi';
 import "../App.css";
 import Logo from '../assets/images/travel-guide-logo.jpg';
 import MapWrapper from './MapWrapper/MapWrapper';
-import Tooltip from './utils/Tooltip';
 import SignInCard from './Pages/static/SignInCard';
 import WelcomeCard from './Pages/static/WelcomeCard';
 import { useAuth } from './Auth/AuthProvider';
@@ -14,7 +13,8 @@ import FormMapping from './utils/FormMapping';
 import SidebarForm from './Pages/SidebarForm';
 import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
-
+import Tooltip from '@mui/material/Tooltip';
+import ListIcon from '@mui/icons-material/List';
 
 const PopMenuWidth: PopMenuWidthType = {
   experience: 'w-54',
@@ -51,6 +51,12 @@ const Sidebar: React.FC = () => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMenuPosition({ top: rect.top, bottom: rect.bottom, left: rect.left });
     setSelectedContent({ title: null, width: PopMenuWidth[menuName], menu: menuName });
+    if (['media', 'publish'].includes(menuName)) {
+      setShowMenuForm(true);
+      setShowCard(false);
+      const asset = FormMapping.find((obj: FormMappingType) => obj?.path?.split('/')[0] === menuName.split('/')[0]);
+      setChoosedMenuForm(asset || null);
+    }
     setShowCard(true);
   }
   /** handle close and Open Sidebar with menu to toggle */
@@ -59,7 +65,7 @@ const Sidebar: React.FC = () => {
   };
   /**Handle the Forms in the sidebar */
   const showPopsMenuForm = (path: PopMenuOptionType['path']) => {
-    console.log("path => ", path);
+    console.log("********path => ", path);
     setShowMenuForm(true);
     setShowCard(false);
     const asset = FormMapping.find((obj: FormMappingType) => obj.path === path);
@@ -80,7 +86,7 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     if (state?.toast?.message) {
-        const {message, type, position} = state?.toast;
+      const { message, type, position } = state?.toast;
       switch (type) {
         case 'success':
           toast.success(message, {
@@ -129,7 +135,7 @@ const Sidebar: React.FC = () => {
             progress: ''
           });
           break;
-          default : 
+        default:
           toast(message, {
             position: position,
             theme: "dark",
@@ -139,7 +145,7 @@ const Sidebar: React.FC = () => {
             pauseOnHover: true,
             draggable: true,
             progress: ''
-            });
+          });
       }
     }
   }, [state.toast])
@@ -220,10 +226,11 @@ const Sidebar: React.FC = () => {
           <span
             className="absolute text-white text-5xl top-5 left-5 cursor-pointer z-10"
             onClick={toggleSidebar}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
           >
-            <BiListUl className="px-2 bg-gray-900 rounded-md" />
+            <Tooltip title="Toggle Menu view">
+              {/* <BiListUl className="px-2 bg-gray-900 rounded-md" /> */}
+              <ListIcon fontSize="large" style={{ color: 'white', backgroundColor: 'black' }} className='rounded' />
+            </Tooltip>
           </span>
         }
 
@@ -239,11 +246,6 @@ const Sidebar: React.FC = () => {
           />
           : null
         }
-
-        {isMouseEntered &&
-          <Tooltip text={'Toggle Menu view'} />
-        }
-
       </div>
 
       {state?.isAuthenticated !== true ?

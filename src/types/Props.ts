@@ -97,3 +97,8 @@ export interface RouteInterface {
   color: string;
   experienceId: string;
 }
+
+export type SelectOptionType = {
+  value: number,
+  name: string
+}

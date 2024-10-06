@@ -178,7 +178,6 @@ export const MatIcons =
 
     export const FilteredIcons = (searchString: string)=>{
         const trimmed = searchString.toLowerCase().trim().replace(/ /g, '')
-        console.log('search', trimmed)
         let filteredIcons;
         if (trimmed.length > 0) {
           filteredIcons = MatIcons.filter(icon => icon.includes(trimmed))

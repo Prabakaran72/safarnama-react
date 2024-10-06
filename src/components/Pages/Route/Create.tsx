@@ -14,7 +14,7 @@ const Create = () => {
     const [formData, dispatchFun] = useReducer<React.Reducer<any, any>>(typeReducer, InitailState);
 
     const onColorChange = (hexcolor: string) => {
-        dispatch({ type: 'handleInput', payload: { color: hexcolor } }); // Dispatch the hex code of the selected color
+        dispatchFun({ type: 'handleInput', payload: { colour: hexcolor } }); // Dispatch the hex code of the selected color
         colorRef.current!.innerText = hexcolor; // Update the text directly
     };
 
@@ -25,15 +25,10 @@ const Create = () => {
     },[])
     console.log("formData", formData);
 
-    const addType = async () => {
-        const data: any = {
-            name: formData.name,
-            ...(formData.icon && { matIcon: formData.icon }),
-            ...(formData.file && { imageIconURL: formData.file }),
-        }
-        const response = await API.post('place-types', data);
+    const addRoute = async () => {
+        const response = await API.post('route', formData);
+        console.log('Response =>', response)
     }
-
 
     console.log('isFocused', isFocused);
     return (
@@ -46,7 +41,7 @@ const Create = () => {
                         name="name"
                         ref={inputRef}
                         value={formData.name}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: "handleInput", payload: { name: e.target.value } })}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatchFun({ type: "handleInput", payload: { name: e.target.value } })}
                         onFocus={() => setIsFocused('name')}
                         onBlur={() => setIsFocused('')} // Keep label reduced if there's text
                         className={`w-full border-b border-b-1 border-cyan-600 focus:outline-none focus:ring-0 focus:border-cyan-600 focus:border-b-2 text-md sm:text-sm py-2 bg-transparent ${formData.name && 'border-gray-600'} w-[60%]`}
@@ -59,7 +54,7 @@ const Create = () => {
                 <div className="relative text-2xl text-left px-4 mt-8 sm:w-72 w-48">
                     <textarea
                         value={formData.description}
-                        onChange={(e) => dispatch({ type: 'handleInput', payload: { description: e.target.value } })}
+                        onChange={(e) => dispatchFun({ type: 'handleInput', payload: { description: e.target.value } })}
                         className="w-full border-b border-gray-600 focus:outline-none focus:ring-0 focus:border-cyan-600 focus:border-b-2 text-sm sm:text-sm resize-none bg-transparent resize-y" // Styling for textarea
                         rows={4} // You can adjust the number of rows as needed
                         placeholder=""
@@ -81,7 +76,8 @@ const Create = () => {
                 <div className="flex w-full pt-8 pb-8 px-4">
                     <button
                         className="bg-slate-300 text-black text-md border-none rounded focus:outline-none hover:outline-none hover:bg-slate-200 hover:rounded-lg"
-                        disabled={true}
+                        // disabled={true}
+                        onClick={addRoute}
                     >
                         Create
                     </button>

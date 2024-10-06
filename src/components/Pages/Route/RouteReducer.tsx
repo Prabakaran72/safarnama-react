@@ -8,14 +8,14 @@ export const InitailState = {
             54.04921468425195
         ],]},
     direction: "None",
-    color : '#90EE90',
-    experienceId: ''
-
+    colour : '#90EE90',
+    experienceId: "66f906272c056318f023e4cc",
 }
 
 export const typeReducer = (state: RouteInterface, action: ActionType): RouteInterface => {
     switch (action.type) {
         case 'handleInput':
+            console.log("action.payload" , action.payload);
             return { ...state,  ...action.payload };
         case 'handleAddGeo':
             return { ...state, geo: {...state.geo,  coordinates: [

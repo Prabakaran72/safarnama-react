@@ -1,0 +1,63 @@
+{
+    "experienceId": "66f906272c056318f023e4cc",
+    "triggerZone": {
+        "type": "circle",
+        "lat": 54.05080457437387,
+        "lng": -2.8039590357208155,
+        "radius": 100,
+        "colour": "#000000"
+    },
+    "name": "Testpalce",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            -2.8039590357208155,
+            54.05080457437387
+        ]
+    },
+    "type": {
+        "_id": "66fee37c2c056318f023e68e",
+        "name": "Test 13",
+        "imageIconURL": "https://safarnama.lancs.ac.uk/api/storage/icon/66f905f82c056318f023e4c4/66fee37c2c056318f023e68e.png",
+        "ownerId": "66f905f82c056318f023e4c4",
+        "created_at": "2024-10-03T18:33:32.790Z",
+        "updated_at": "2024-10-03T18:33:32.790Z",
+        "__v": 0
+    },
+    "media": [
+        {
+            "_id": "66f910522c056318f023e50d",
+            "path": "https://safarnama.lancs.ac.uk/api/storage/media/66f905f82c056318f023e4c4/66f910522c056318f023e50d.jpg",
+            "ownerId": "66f905f82c056318f023e4c4",
+            "size": 22265,
+            "md5": "c754b58f26529cb228e7f9c704fd751a",
+            "mimetype": "image/jpeg",
+            "associatedExperiences": [
+                "66f906272c056318f023e4cc",
+                "66f906272c056318f023e4cc"
+            ],
+            "created_at": "2024-09-29T08:31:14.286Z",
+            "updated_at": "2024-09-29T08:31:14.286Z",
+            "externalLinks": [],
+            "__v": 0,
+            "thumbPath": "https://safarnama.lancs.ac.uk/api/storage/media/66f905f82c056318f023e4c4/66f910522c056318f023e50d_thumb.png"
+        },
+        {
+            "_id": "66f910712c056318f023e510",
+            "path": "https://safarnama.lancs.ac.uk/api/storage/media/66f905f82c056318f023e4c4/66f910712c056318f023e510.html",
+            "ownerId": "66f905f82c056318f023e4c4",
+            "size": 13,
+            "md5": "138e916b1d8d5c1de4f8120f93e8b070",
+            "mimetype": "text/html",
+            "associatedExperiences": [
+                "66f906272c056318f023e4cc",
+                "66f906272c056318f023e4cc"
+            ],
+            "created_at": "2024-09-29T08:31:45.180Z",
+            "updated_at": "2024-09-29T08:31:45.180Z",
+            "externalLinks": [],
+            "__v": 0,
+            "thumbPath": "https://safarnama.lancs.ac.uk/api/storage/media/66f905f82c056318f023e4c4/66f910712c056318f023e510_thumb.png"
+        }
+    ]
+}

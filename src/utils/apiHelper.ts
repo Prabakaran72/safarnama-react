@@ -6,6 +6,8 @@ interface ApiHelper {
   post: (endpoint: string, data: any) => Promise<any>;
   put: (endpoint: string, data: any) => Promise<any>;
   delete: (endpoint: string) => Promise<any>;
+  postFormData: (endpoint: string, data: any) => Promise<any>;
+  putFormData: (endpoint: string, data: any) => Promise<any>;
 }
 
 const apiHelper = (state: any, dispatch: any): ApiHelper => {
@@ -48,7 +50,7 @@ const apiHelper = (state: any, dispatch: any): ApiHelper => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        responseHandler(response, dispatch);
+        responseHandler(response, dispatch, endpoint);
         return await response.json();
       } catch (error) {
         console.error('POST request failed:', error);
@@ -98,16 +100,68 @@ const apiHelper = (state: any, dispatch: any): ApiHelper => {
         throw error;
       }
     },
+
+    async postFormData(endpoint: string, data: any): Promise<any> {
+
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'POST',
+          headers: {
+            // 'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json, text/plain, */*',
+          },
+          credentials: 'include',
+          body: data
+        });
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        responseHandler(response, dispatch, endpoint);
+        return await response.json();
+      } catch (error) {
+        console.error('POST request failed:', error);
+        throw error;
+      }
+    },
+
+    async putFormData(endpoint: string, data: any): Promise<any> {
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          // body: JSON.stringify(data),
+          body: data
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('PUT request failed:', error);
+        throw error;
+      }
+    },
   }
 };
 
 export default apiHelper;
 
-export const responseHandler = (response: any, dispatch: any) => {
+const EndPoint : {[key: string] : string} ={
+  route: 'Route created. Click on the map to edit it.',
+  place: 'Place created ',
+  experience: 'Experience',
+}
+
+export const responseHandler = (response: any, dispatch: any, endpoint:string) => {
   let message = '';
   let type = '';
   if (response.status >= 200 && response.status < 300) {
-    message = `Operation successfully completed.`;
+    message = `${EndPoint[endpoint]} successfully completed.`;
     type = 'success';
   } else if (response.status >= 400 && response.status < 500) {
     message = `An error occurred. Please try again.`;

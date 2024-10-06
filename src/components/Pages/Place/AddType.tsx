@@ -16,8 +16,6 @@ const AddType: React.FC<{ onClose: (() => void), onSubmit: (() => void) }> = ({ 
     const [error, setError] = useState<string | null>(null);
     const [searchIcon, setSearchIcon] = useState<string | ''>('');
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
-    console.log("state => ", state);
-
 
     const filteredIconsList = useMemo(() => {
         return FilteredIcons(searchIcon);
@@ -124,7 +122,7 @@ const AddType: React.FC<{ onClose: (() => void), onSubmit: (() => void) }> = ({ 
 
                 <div className='flex justify-end space-x-4 mt-4'>
                     <button
-                        className=" bg-transparent border-none text-black px-4 rounded hover:border-noneoutline-none focus:outline-none outline-none focus:outline-none"
+                        className=" bg-transparent border-none text-black px-4 rounded hover:border-none outline-none focus:outline-none"
                         onClick={onClose}>
                         Cancel
                     </button>

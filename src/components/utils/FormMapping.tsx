@@ -14,7 +14,7 @@ const FormMapping : FormMappingType[]= [
         title: 'Logout'
     },
     {
-        path : 'mediaLib/overlay',
+        path : 'media/overlay',
         formPosition : 'overlay',
         // onBack : 'IsSidebarOpen(true) ,setShowMenuForm(false)',
         title: 'Media Library'

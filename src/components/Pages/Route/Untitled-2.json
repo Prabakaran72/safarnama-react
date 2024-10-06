@@ -1,0 +1,30 @@
+//Route create sample data
+
+{
+    "experienceId": "66f906272c056318f023e4cc",
+    "name": "Cycling Route",
+    "colour": "#90EE90",
+    "geo": {
+        "type": "LineString",
+        "coordinates": [
+            [
+                -2.803838783240842,
+                54.04921468425195
+            ],
+            [
+                -2.8027205552731993,
+                54.049395625530295
+            ],
+            [
+                -2.801781782117987,
+                54.04906493898575
+            ],
+            [
+                -2.801808604208136,
+                54.048683858846815
+            ]
+        ]
+    },
+    "direction": "None",
+    "description": "Best natural sceneries "
+}
